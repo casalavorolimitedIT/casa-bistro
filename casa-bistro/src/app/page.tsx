@@ -12,9 +12,20 @@ export default function Home() {
   return (
     <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <div
-        className="fixed inset-0 z-0"
+        className="fixed inset-0 z-0 imageDark"
         style={{
           backgroundImage: "url('/banner.png')", // Replace with your image path
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Shadow overlay */}
+        <div className="absolute inset-0 bg-black/50"></div>
+      </div>
+      <div
+        className="fixed inset-0 z-0 imageLight"
+        style={{
+          backgroundImage: "url('/banner2.png')", // Replace with your image path
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
