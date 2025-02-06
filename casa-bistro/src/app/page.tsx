@@ -31,7 +31,7 @@ export default function Home() {
         }}
       >
         {/* Shadow overlay */}
-        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="absolute inset-0 bg-white/50"></div>
       </div>
       <h1 className="text-2xl font-bold mb-8 text-center flex justify-start items-center w-full relative z-10">
         <Image
