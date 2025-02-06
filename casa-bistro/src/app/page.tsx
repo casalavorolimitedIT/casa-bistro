@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-
+// import { Dinner } from "./Myicons/icons";
 // Define interfaces for a menu item and menu category
 
 
@@ -39,6 +39,7 @@ export default function Home() {
           className="self-start imageLight"
         />
         <span className="inline-block">Casa-Bistro</span>
+        {/* <Dinner /> */}
       </h1>
 
       {/* Loop through each category in the data object */}

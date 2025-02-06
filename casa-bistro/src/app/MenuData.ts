@@ -357,5 +357,143 @@ export const menuData: { [key: string]: MenuCategory } = {
           },
         ],
       },
+      Soup: {
+        id: 6,
+        name: "Soup",
+        items: [
+          {
+            id: 1,
+            name: "Egusi",
+            price: 2000,
+          },
+          {
+            id: 2,
+            name: "Ogbono",
+            price: 2000,
+          },
+          {
+            id: 3,
+            name: "Sea Food Okra",
+            price: 15000,
+          },
+          {
+            id: 4,
+            name: "Fisherman Soup",
+            price: 18000,
+          },
+          {
+            id: 5,
+            name: "Vegetable Soup",
+            price: 2000,
+          },
+          {
+            id: 6,
+            name: "Ewedu & Gbegiri",
+            price: 3000,
+          },
+          {
+            id: 7,
+            name: "Oha",
+            price: 2000,
+          },
+          {
+            id: 8,
+            name: "Miyan Gravy",
+            price: 5000,
+            description: "All soups are served with either poundo, eba, semo , wheat, amala, tuwo shinkafa",
+          },
+          {
+            id: 9,
+            name: "Afang",
+            price: 4000,
+          },
+          {
+            id: 10,
+            name: "Tomatoe Stew",
+            price: 2000,
+          },
+       
+        ],
+      },
+      Salads: {
+        id: 7,
+        name: "Salads",
+        items: [
+          {
+            id: 1,
+            name: "Harvest Salad",
+            price: 18000,
+          },
+          {
+            id: 2,
+            name: "Ceasar Salad",
+            price: 18000,
+          },
+          {
+            id: 3,
+            name: "Local Salad",
+            price: 18000,
+          },
+          {
+            id: 4,
+            name: "Market salad",
+            price: 18000,
+          },
+          {
+            id: 5,
+            name: "Coleslaw",
+            price: 18000,
+          },
+          {
+            id: 6,
+            name: "Chef salad",
+            price: 18000,
+          },
+          {
+            id: 7,
+            name: "seasonal salad",
+            price: 18000,
+          },
+          {
+            id: 8,
+            name: "Casa Special Salad",
+            price: 18000,
+          }
+        ],
+      },
+      Drinks: {
+        id: 8,
+        name: "Drinks",
+        items: [
+          {
+            id: 1,
+            name: "Smoothies",
+            price: 6000,
+            description: "Banana, Strawberry, Watermelon, Apple Mint, bluespid",
+          },
+          {
+            id: 2,
+            name: "Fresh Juice",
+            price: 5000,
+            description: "Orange, Pineapple, Watermelon",
+          },
+          {
+            id: 3,
+            name: "Mixed juice",
+            price: 6000,
+          },
+          {
+            id: 4,  
+            name: "Packet Juice",
+            price: 3000,
+          },
+          {
+            id: 5,
+            name: "Casa Special Juice",
+            price: 700,
+            description: "water",
+          }
+        ],
+      },
     };
     
