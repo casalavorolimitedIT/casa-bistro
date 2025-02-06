@@ -22,6 +22,17 @@ export default function Home() {
         {/* Shadow overlay */}
         <div className="absolute inset-0 bg-black/50"></div>
       </div>
+      <div
+        className="fixed inset-0 z-0 imageLight"
+        style={{
+          backgroundImage: "url('/banner3.png')", // Replace with your image path
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Shadow overlay */}
+       
+      </div>
    
       <h1 className="text-2xl font-bold mb-8 text-center flex justify-start items-center w-full relative z-10">
         <Image
