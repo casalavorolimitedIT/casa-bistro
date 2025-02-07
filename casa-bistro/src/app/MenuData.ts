@@ -351,7 +351,7 @@ export const menuData: { [key: string]: MenuCategory } = {
           },
           {
             id: 12, 
-            name: "Jabalaya Rice",
+            name: "Jambalaya Rice",
             price: 7000,
             
           },
