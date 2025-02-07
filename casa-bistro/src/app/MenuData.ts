@@ -334,7 +334,7 @@ export const menuData: { [key: string]: MenuCategory } = {
           },
           {
             id: 9,
-            name: "Creamy Shrimp Afredo pasta",
+            name: "Creamy Shrimp Alfredo pasta",
             price: 12000,
             description: "With shrimp and Mozarella cheese/parmesan cheese",
           },
