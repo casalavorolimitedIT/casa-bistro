@@ -25,7 +25,7 @@ export default function Home() {
       <div
         className="fixed inset-0 z-0 imageLight"
         style={{
-          backgroundImage: "url('/banner3.png')", // Replace with your image path
+          backgroundImage: "url('/banner3.jpg')", // Replace with your image path
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
