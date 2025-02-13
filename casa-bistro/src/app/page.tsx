@@ -11,6 +11,7 @@ import { menuData } from "./MenuData";
 export default function Home() {
   return (
     <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      
       <div
         className="fixed inset-0 z-0 imageDark"
         style={{
@@ -52,6 +53,7 @@ export default function Home() {
         <span className="inline-block">Casa-Bistro</span>
         {/* <Dinner /> */}
       </h1>
+      <img src="/valentinesday.png" alt="valentine" className="w-[100%] relative z-10 mx-auto" />
 
       {/* Loop through each category in the data object */}
       {Object.keys(menuData).map((categoryKey) => {
