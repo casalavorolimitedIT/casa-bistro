@@ -364,12 +364,12 @@ export const menuData: { [key: string]: MenuCategory } = {
           {
             id: 1,
             name: "Egusi",
-            price: 2000,
+            price: 4000,
           },
           {
             id: 2,
             name: "Ogbono",
-            price: 2000,
+            price: 4000,
           },
           {
             id: 3,
@@ -384,12 +384,12 @@ export const menuData: { [key: string]: MenuCategory } = {
           {
             id: 5,
             name: "Vegetable Soup",
-            price: 2000,
+            price: 4000,
           },
           {
             id: 6,
             name: "Ewedu & Gbegiri",
-            price: 3000,
+            price: 4000,
           },
           {
             id: 7,
@@ -405,7 +405,7 @@ export const menuData: { [key: string]: MenuCategory } = {
           {
             id: 9,
             name: "Afang",
-            price: 4000,
+            price: 5000,
           },
           {
             id: 10,
