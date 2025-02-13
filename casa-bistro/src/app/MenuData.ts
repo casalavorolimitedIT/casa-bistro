@@ -489,7 +489,7 @@ export const menuData: { [key: string]: MenuCategory } = {
           },
           {
             id: 5,
-            name: "Casa Special Juice",
+            name: "Casa H20",
             price: 700,
             description: "water",
           }
