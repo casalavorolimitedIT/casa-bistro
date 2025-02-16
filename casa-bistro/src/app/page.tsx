@@ -13,7 +13,7 @@ export default function Home() {
    <>
    <Head>
     <link rel="icon" type="image/png" href="/casalogo.png" className="imageDark" />
-    <link rel="icon" type="image/png" href="/casalogo.png" className="imageLight" />
+    <link rel="icon" type="image/png" href="/casalogo2.png" className="imageLight" />
    </Head>
    <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       
