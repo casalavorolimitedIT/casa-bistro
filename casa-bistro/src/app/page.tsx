@@ -4,17 +4,14 @@ import React from "react";
 import Image from "next/image";
 // import { Dinner } from "./Myicons/icons";
 // Define interfaces for a menu item and menu category
-import Head from "next/head";
+
 
 import { menuData } from "./MenuData";
  
 export default function Home() {
   return (
    <>
-   <Head>
-    <link rel="icon" type="image/png" href="/casalogo.png" className="imageDark" />
-    <link rel="icon" type="image/png" href="/casalogo2.png" className="imageLight" />
-   </Head>
+   
    <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       
       <div

@@ -52,6 +52,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" type="image/png" href="/casalogo.png" className="imageDark"  />
+        <link rel="icon" type="image/png" href="/casalogo2.png" className="imageLight" />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   )
