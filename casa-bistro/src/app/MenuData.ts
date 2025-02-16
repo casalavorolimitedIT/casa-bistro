@@ -489,9 +489,25 @@ export const menuData: { [key: string]: MenuCategory } = {
           },
           {
             id: 5,
-            name: "Casa H20",
+            name: "Pina Colada",
+            price: 7000,
+          },
+          {
+            id: 6,
+            name: "Apple date milkshake",
+            price: 7000,
+            
+          },
+          {
+            id: 7,
+            name: "Strawberry milkshake",
+            price: 7000,
+            
+          },
+          {
+            id: 8,
+            name: "Water",
             price: 700,
-            description: "water",
           }
         ],
       },
