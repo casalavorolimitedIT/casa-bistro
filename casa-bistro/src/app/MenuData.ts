@@ -38,12 +38,7 @@ export const menuData: { [key: string]: MenuCategory } = {
                 price: 6000,
                 description: "Yam coated in egg and bell pepper",
               },
-              {
-                id: 2,
-                name: "Masa",
-                price: 6000,
-                description: "with masa sauce",
-              },
+            
               {
                 id: 3,
                 name: "Pancakes",
@@ -154,12 +149,7 @@ export const menuData: { [key: string]: MenuCategory } = {
             price: 7000,
             description: "with honey, suya sauce & sesame seeds",
           },
-          {
-            id: 4,
-            name: "Surf and Turf",
-            price: 15000,
-            description: "Chicken & shrimp",
-          },
+        
           {
             id: 5,
             name: "Crispy Chicken",
@@ -376,11 +366,7 @@ export const menuData: { [key: string]: MenuCategory } = {
             name: "Sea Food Okra",
             price: 15000,
           },
-          {
-            id: 4,
-            name: "Fisherman Soup",
-            price: 18000,
-          },
+          
           {
             id: 5,
             name: "Vegetable Soup",
@@ -391,17 +377,8 @@ export const menuData: { [key: string]: MenuCategory } = {
             name: "Ewedu & Gbegiri",
             price: 4000,
           },
-          {
-            id: 7,
-            name: "Oha",
-            price: 2000,
-          },
-          {
-            id: 8,
-            name: "Miyan Gravy",
-            price: 5000,
-            description: "All soups are served with either poundo, eba, semo , wheat, amala, tuwo shinkafa",
-          },
+        
+       
           {
             id: 9,
             name: "Afang",
@@ -419,21 +396,13 @@ export const menuData: { [key: string]: MenuCategory } = {
         id: 7,
         name: "Salads",
         items: [
-          {
-            id: 1,
-            name: "Harvest Salad",
-            price: 18000,
-          },
+        
           {
             id: 2,
             name: "Ceasar Salad",
             price: 18000,
           },
-          {
-            id: 3,
-            name: "Local Salad",
-            price: 18000,
-          },
+         
           {
             id: 4,
             name: "Market salad",

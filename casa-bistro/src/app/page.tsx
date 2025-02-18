@@ -55,7 +55,7 @@ export default function Home() {
         <span className="inline-block">Casa-Bistro</span>
         {/* <Dinner /> */}
       </h1>
-      <img src="/valentinesday.png" alt="valentine" className="w-[100%] relative z-10 mx-auto" />
+      {/* <img src="/valentinesday.png" alt="valentine" className="w-[100%] relative z-10 mx-auto" /> */}
 
       {/* Loop through each category in the data object */}
       {Object.keys(menuData).map((categoryKey) => {
