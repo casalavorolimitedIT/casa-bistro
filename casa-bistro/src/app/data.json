@@ -43,17 +43,16 @@
                     },
                     {
                         "id": 5,
-                        "name": "Club Sandwich",
-                        "price": 6000,
-                        "description": "club sandwich"
-                    },
-                    {
-                        "id": 6,
                         "name": "Noodles and Eggs",
                         "price": 6000,
                         "description": "Noodles and Eggs"
                     }
                 ]
+            },
+            {
+                "id": 4,
+                "name": "Club Sandwich",
+                "price": 6000
             }
         ]
     },
@@ -70,7 +69,7 @@
             {
                 "id": 2,
                 "name": "Jollof Rice",
-                "price": 4500,
+                "price": 5500,
                 "description": "Jollof Rice"
             },
             {
@@ -94,7 +93,7 @@
             {
                 "id": 6,
                 "name": "Egg Fried Rice",
-                "price": 6500,
+                "price": 5500,
                 "description": "With scrambled eggs"
             },
             {
@@ -114,6 +113,30 @@
                 "name": "Sea food fried rice",
                 "price": 7000,
                 "description": "With shrimps"
+            },
+            {
+                "id": 10,
+                "name": "Jollof Spaghetti",
+                "price": 5000,
+                "description": "Jollof Spaghetti"
+            },
+            {
+                "id": 11,
+                "name": "Pineapple Fried Rice",
+                "price": 8000,
+                "description": "Pineapple Fried Rice"
+            },
+            {
+                "id": 12,
+                "name": "Plantain",
+                "price": 3200,
+                "description": "Plantain"
+            },
+            {
+                "id": 13,
+                "name": "Extra Plantain",
+                "price": 1500,
+                "description": "Extra Plantain"
             }
         ]
     },
@@ -210,6 +233,48 @@
                 "name": "Peppered Snail",
                 "price": 10000,
                 "description": "Peppered Snail"
+            },
+            {
+                "id": 16,
+                "name": "Egusi",
+                "price": 5000,
+                "description": "Egusi Soup"
+            },
+            {
+                "id": 17,
+                "name": "Ogbono",
+                "price": 5000,
+                "description": "Ogbono Soup"
+            },
+            {
+                "id": 18,
+                "name": "Okra",
+                "price": 5000,
+                "description": "Okra Soup"
+            },
+            {
+                "id": 19,
+                "name": "Seafood Okra",
+                "price": 20000,
+                "description": "Seafood Okra"
+            },
+            {
+                "id": 20,
+                "name": "Thai Chicken or Beef Noodles",
+                "price": 7500,
+                "description": "Thai Chicken or Beef Noodles"
+            }
+        ]
+    },
+    "Beverages": {
+        "id": 4,
+        "name": "Beverages",
+        "items": [
+            {
+                "id": 1,
+                "name": "Detox Juice",
+                "price": 7000,
+                "description": "Detox Juice"
             }
         ]
     }
