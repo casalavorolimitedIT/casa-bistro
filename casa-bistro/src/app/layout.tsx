@@ -1,44 +1,12 @@
-// import type { Metadata } from "next";
-// import { Geist, Geist_Mono } from "next/font/google";
-// import "./globals.css";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
-
-// export const metadata: Metadata = {
-//   title: "Casa Bistro",
-//   description: "Menu bistro ",
-// };
-
-// export default function RootLayout({
-//   children,
-// }: Readonly<{
-//   children: React.ReactNode;
-// }>) {
-//   return (
-//     <html lang="en">
-//       <body
-//         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-//       >
-//         {children}
-//       </body>
-      
-//     </html>
-//   );
-// }
-
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Poppins } from 'next/font/google' // Import Poppins instead of Inter
 
-const inter = Inter({ subsets: ['latin'], display: 'swap', adjustFontFallback: false})
-
+const poppins = Poppins({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'], // Specify the weights you want to use
+  variable: '--font-poppins', // Define a CSS variable for easier use in Tailwind CSS
+})
 
 export const metadata = {
   title: "Casa Bistro",
@@ -53,10 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" type="image/png" href="/casalogo.png" className="imageDark"  />
-        <link rel="icon" type="image/png" href="/casalogo2.png" className="imageLight" />
+        {/* Consider using a single favicon and let CSS handle dark/light mode if applicable */}
+        <link rel="icon" type="image/png" href="/casalogo.png" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={`${poppins.variable} font-sans`}> {/* Apply the font variable and a fallback */}
+        {children}
+      </body>
     </html>
   )
 }
