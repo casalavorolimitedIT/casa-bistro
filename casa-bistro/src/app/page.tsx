@@ -47,7 +47,7 @@ export default function Home() {
         </header>
 
         {/* Promotional Image */}
-        <div className="relative z-10 my-12">
+        {/* <div className="relative z-10 my-12">
           <Image
             src="/salah.jpg" // Ensure this image path is correct in your 'public' folder
             alt="Special Offer"
@@ -55,7 +55,7 @@ export default function Home() {
             height={600}
             className="w-full max-w-4xl mx-auto rounded-lg shadow-xl"
           />
-        </div>
+        </div> */}
 
         {/* Menu Categories */}
         <main className="relative z-10 max-w-6xl mx-auto">
