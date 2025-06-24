@@ -11,7 +11,6 @@ interface MenuCategory {
   name: string;
   items: MenuItem[];
 }
-
 export const menuData: { [key: string]: MenuCategory } = {
   Breakfast: {
     id: 1,
@@ -30,13 +29,19 @@ export const menuData: { [key: string]: MenuCategory } = {
       {
         id: 3,
         name: "Complimentary Breakfast",
-        price: 0,
+        price: 0, // You can set a price of 0 or any value if needed
         items: [
           {
             id: 1,
             name: "Yamarita",
             price: 6000,
             description: "Yam coated in egg and bell pepper",
+          },
+          {
+            id: 2,
+            name: "Custard with Akara",
+            price: 6000,
+            description: "Custard served with akara (bean cakes)",
           },
           {
             id: 3,
@@ -51,22 +56,16 @@ export const menuData: { [key: string]: MenuCategory } = {
             description: "fried or boiled",
           },
           {
+            id: 5,
+            name: "Sweet Potato with Egg Sauce",
+            price: 6000,
+            description: "Sweet potato served with egg sauce",
+          },
+          {
             id: 6,
             name: "Noodles and Eggs",
             price: 6000,
             description: "Noodles and Eggs",
-          },
-          {
-            id: 7,
-            name: "Custard with Akara",
-            price: 6000,
-            description: "Warm custard served with bean cakes",
-          },
-          {
-            id: 8,
-            name: "Sweet Potato with Egg Sauce",
-            price: 6000,
-            description: "Boiled or fried sweet potato with savory egg sauce",
           },
         ],
       },
@@ -77,9 +76,81 @@ export const menuData: { [key: string]: MenuCategory } = {
       },
     ],
   },
-
-  // (unchanged MainCourse and others)
-
+  MainCourse: {
+    id: 2,
+    name: "Main Course",
+    items: [
+      {
+        id: 1,
+        name: "White Rice",
+        price: 3000,
+        description: "White Rice",
+      },
+      {
+        id: 2,
+        name: "Jollof Rice",
+        price: 5500,
+        description: "Jollof Rice",
+      },
+      {
+        id: 3,
+        name: "Local Jollof Rice and Beans",
+        price: 5500,
+        description: "With dried fish & Kpomo",
+      },
+      {
+        id: 4,
+        name: "Caribbean Rice",
+        price: 7000,
+        description: "With sliced plantain & diced chicken thighs",
+      },
+      {
+        id: 5,
+        name: "Turkish Suya Rice",
+        price: 6500,
+        description: "With diced beef",
+      },
+      {
+        id: 6,
+        name: "Egg Fried Rice",
+        price: 5500,
+        description: "With scrambled eggs",
+      },
+      {
+        id: 7,
+        name: "Korean Rice",
+        price: 6500,
+        description: "With broccoli, cauliflower & sausage",
+      },
+      {
+        id: 8,
+        name: "Casa Special Fried Rice",
+        price: 7500,
+        description: "With diced chicken, beef and sausage",
+      },
+      {
+        id: 9,
+        name: "Sea Food Fried Rice",
+        price: 7000,
+        description: "With shrimps",
+      },
+      {
+        id: 10,
+        name: "Thai Chicken or Beef Noodles",
+        price: 7500,
+      },
+      {
+        id: 11,
+        name: "Jollof Spaghetti",
+        price: 5000,
+      },
+      {
+        id: 12,
+        name: "Pineapple Fried Rice",
+        price: 8000,
+      },
+    ],
+  },
   Protein: {
     id: 3,
     name: "Protein",
@@ -171,7 +242,7 @@ export const menuData: { [key: string]: MenuCategory } = {
       {
         id: 16,
         name: "Sides",
-        price: 0,
+        price: 0, // You can set a price of 0 or any value if needed
         items: [
           {
             id: 1,
@@ -210,20 +281,232 @@ export const menuData: { [key: string]: MenuCategory } = {
           },
           {
             id: 8,
-            name: "Spring Roll & Samosa",
+            name: "Samosa & Spring Roll",
             price: 4000,
-            description: "Crispy spring roll and samosa mix",
           },
           {
             id: 9,
             name: "Tofu",
             price: 4000,
-            description: "Lightly fried tofu cubes",
           },
         ],
       },
     ],
   },
-
-  // (no changes to other categories)
+  Perppersoup: {
+    id: 4,
+    name: "Perppersoup",
+    items: [
+      {
+        id: 1,
+        name: "Catfish Peppersoup",
+        price: 6500,
+        description: "A cut of cat fish in spicy broth",
+      },
+      {
+        id: 2,
+        name: "Chicken Peppersoup",
+        price: 7000,
+      },
+      {
+        id: 3,
+        name: "Goat Meat Peppersoup",
+        price: 7000,
+      },
+    ],
+  },
+  MoreCourses: {
+    id: 5,
+    name: "More Courses",
+    items: [
+      {
+        id: 1,
+        name: "Spaghetti Bolognese",
+        price: 9000,
+        description: "With plum tomatoes and minced beef ",
+      },
+      {
+        id: 2,
+        name: "Coconut Rice",
+        price: 7000,
+      },
+      {
+        id: 3,
+        name: "Goat Meat Peppersoup",
+        price: 4500,
+      },
+      {
+        id: 4,
+        name: "Local Jollof",
+        price: 7000,
+        description: "With dried fish & Kpomo",
+      },
+      {
+        id: 5,
+        name: "Chicken Briyani Rice ",
+        price: 12000,
+        description: "with a serving of chicken",
+      },
+      {
+        id: 6,
+        name: "Chinese Rice ",
+        price: 6500,
+        description: "With diced chicken and scrambled eggs ",
+      },
+      {
+        id: 7,
+        name: "Beef Briyani",
+        price: 12000,
+        description: "With beef serving",
+      },
+      {
+        id: 8,
+        name: "Porrige Beans",
+        price: 6500,
+        description: "with dried fish ",
+      },
+      {
+        id: 9,
+        name: "Creamy Shrimp Alfredo pasta",
+        price: 12000,
+        description: "With shrimp and Mozarella cheese/parmesan cheese",
+      },
+      {
+        id: 10,
+        name: "Peri Peri Jollof Rice",
+        price: 5500,
+      },
+      {
+        id: 11,
+        name: "Teriyaki Madness Bowl",
+        price: 10000,
+        description: "With chinese noodle, vegetables and diced proteins",
+      },
+      {
+        id: 12,
+        name: "Jambalaya Rice",
+        price: 7000,
+      },
+    ],
+  },
+  Soup: {
+    id: 6,
+    name: "Soup",
+    items: [
+      {
+        id: 1,
+        name: "Egusi",
+        price: 5000,
+      },
+      {
+        id: 2,
+        name: "Ogbono",
+        price: 5000,
+      },
+      {
+        id: 3,
+        name: "Sea Food Okra",
+        price: 20000,
+      },
+      {
+        id: 5,
+        name: "Vegetable Soup",
+        price: 4000,
+      },
+      {
+        id: 6,
+        name: "Ewedu & Gbegiri",
+        price: 4000,
+      },
+    ],
+  },
+  Salads: {
+    id: 7,
+    name: "Salads",
+    items: [
+      {
+        id: 2,
+        name: "Ceasar Salad",
+        price: 18000,
+      },
+      {
+        id: 4,
+        name: "Market salad",
+        price: 18000,
+      },
+      {
+        id: 5,
+        name: "Coleslaw",
+        price: 18000,
+      },
+      {
+        id: 6,
+        name: "Chef salad",
+        price: 18000,
+      },
+      {
+        id: 7,
+        name: "seasonal salad",
+        price: 18000,
+      },
+      {
+        id: 8,
+        name: "Casa Special Salad",
+        price: 18000,
+      },
+    ],
+  },
+  Drinks: {
+    id: 8,
+    name: "Drinks",
+    items: [
+      {
+        id: 1,
+        name: "Smoothies",
+        price: 6000,
+        description: "Banana, Strawberry, Watermelon, Apple Mint, bluespid",
+      },
+      {
+        id: 2,
+        name: "Fresh Juice",
+        price: 5000,
+        description: "Orange, Pineapple, Watermelon",
+      },
+      {
+        id: 3,
+        name: "Mixed juice",
+        price: 6000,
+      },
+      {
+        id: 4,
+        name: "Packet Juice",
+        price: 3000,
+      },
+      {
+        id: 5,
+        name: "Pina Colada",
+        price: 7000,
+      },
+      {
+        id: 6,
+        name: "Apple date milkshake",
+        price: 7000,
+      },
+      {
+        id: 7,
+        name: "Strawberry milkshake",
+        price: 7000,
+      },
+      {
+        id: 8,
+        name: "Water",
+        price: 700,
+      },
+      {
+        id: 9,
+        name: "Detox Juice",
+        price: 7000,
+      },
+    ],
+  },
 };
