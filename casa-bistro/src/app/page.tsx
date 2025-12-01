@@ -1,11 +1,17 @@
 "use client";
-import React from "react";
+import React, {useState} from "react";
 import Image from "next/image";
 import { menuData } from "./MenuData"; // Make sure this path is correct for your project
-
+import ChristmasMenu from "./components/ChristmasMenu";
 export default function Home() {
+   const [showChristmasMenu, setShowChristmasMenu] = useState(false);
   return (
     <>
+      <>
+     
+      
+      {showChristmasMenu ? <ChristmasMenu /> : <div></div>}
+    </>
       <div className="min-h-screen p-6 sm:p-10 font-sans text-gray-800 dark:text-gray-800 relative overflow-hidden">
         {/* Background Image */}
         <div className="fixed inset-0 z-0">
@@ -47,15 +53,15 @@ export default function Home() {
         </header>
 
         {/* Promotional Image */}
-        {/* <div className="relative z-10 my-12">
+         <div className="relative z-10 my-12">
           <Image
-            src="/salah.jpg" // Ensure this image path is correct in your 'public' folder
+            src="/christmas.png" // Ensure this image path is correct in your 'public' folder
             alt="Special Offer"
             width={1200}
             height={600}
             className="w-full max-w-4xl mx-auto rounded-lg shadow-xl"
           />
-        </div> */}
+        </div> 
 
         {/* Menu Categories */}
         <main className="relative z-10 max-w-6xl mx-auto">
