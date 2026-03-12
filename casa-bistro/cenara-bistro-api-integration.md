@@ -1,17 +1,17 @@
-# Cenara and Bistro API Integration Guide
+# Cenare and Bistro API Integration Guide
 
 This guide shows how to expose and consume menu data from Supabase for the external landing pages.
 
 ## Kitchen slugs to use
 
-- Cenara: `cenara-wuse-kitchen`
+- Cenare: `cenare-wuse-kitchen`
 - Bistro: `bistro-maitama-kitchen`
 
 These slugs are defined in `schema.sql` in the kitchens seed.
 
 ## Step 1: Confirm environment variables
 
-In each external app (Cenara site and Bistro site), set:
+In each external app (Cenare site and Bistro site), set:
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://<your-project-ref>.supabase.co
@@ -30,7 +30,7 @@ Run this SQL in Supabase SQL editor:
 ```sql
 select id, name, slug, is_active
 from public.kitchens
-where slug in ('cenara-wuse-kitchen', 'bistro-maitama-kitchen');
+where slug in ('cenare-wuse-kitchen', 'bistro-maitama-kitchen');
 ```
 
 Expected result: both kitchens appear.
@@ -85,10 +85,10 @@ Supabase REST base URL:
 https://<your-project-ref>.supabase.co/rest/v1
 ```
 
-### Cenara request
+### Cenare request
 
 ```http
-GET /rest/v1/v_menu_full?kitchen_slug=eq.cenara-wuse-kitchen&is_active=eq.true&is_visible=eq.true&select=category_name,item_name,item_description,price_mode,price_amount,image_url,item_sku,category_sort_order,price_options,addons
+GET /rest/v1/v_menu_full?kitchen_slug=eq.cenare-wuse-kitchen&is_active=eq.true&is_visible=eq.true&select=category_name,item_name,item_description,price_mode,price_amount,image_url,item_sku,category_sort_order,price_options,addons
 apikey: <anon-key>
 Authorization: Bearer <anon-key>
 ```
@@ -111,7 +111,7 @@ Example helper (`lib/menu-api.ts`):
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-export type KitchenSlug = "cenara-wuse-kitchen" | "bistro-maitama-kitchen";
+export type KitchenSlug = "cenare-wuse-kitchen" | "bistro-maitama-kitchen";
 
 export async function fetchMenuByKitchenSlug(kitchenSlug: KitchenSlug) {
   const query = new URLSearchParams({
@@ -145,12 +145,12 @@ export async function fetchMenuByKitchenSlug(kitchenSlug: KitchenSlug) {
 
 ## Step 7: Use the helper per website
 
-- Cenara site: call `fetchMenuByKitchenSlug("cenara-wuse-kitchen")`
+- Cenare site: call `fetchMenuByKitchenSlug("cenare-wuse-kitchen")`
 - Bistro site: call `fetchMenuByKitchenSlug("bistro-maitama-kitchen")`
 
 ## Step 8: Add a minimal smoke test checklist
 
-1. Cenara page loads with Cenara categories/items only.
+1. Cenare page loads with Cenare categories/items only.
 2. Bistro page loads with Bistro categories/items only.
 3. Hidden/inactive items do not appear.
 4. No service role key is exposed in frontend code.
@@ -160,7 +160,7 @@ export async function fetchMenuByKitchenSlug(kitchenSlug: KitchenSlug) {
 
 If you do not want direct Supabase calls from external apps, add a proxy endpoint in this repo:
 
-- `app/api/landing/cenara/route.ts`
+- `app/api/landing/cenare/route.ts`
 - `app/api/landing/bistro/route.ts`
 
 Each route can fetch with a server client and return normalized JSON.

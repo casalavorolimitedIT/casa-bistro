@@ -77,7 +77,7 @@ create index if not exists idx_profiles_kitchen
 
 insert into public.kitchens (name, slug, description)
 values
-  ('Cenara Wuse Kitchen', 'cenara-wuse-kitchen', 'Cenara restaurant located in Wuse'),
+  ('Cenare Wuse Kitchen', 'cenare-wuse-kitchen', 'Cenare restaurant located in Wuse'),
   ('Bistro Maitama Kitchen', 'bistro-maitama-kitchen', 'Bistro restaurant located in Maitama')
 on conflict (slug) do update
 set name = excluded.name,
@@ -90,7 +90,7 @@ update public.menu_categories
 set kitchen_id = (
   select id
   from public.kitchens
-  where slug = 'cenara-wuse-kitchen'
+  where slug = 'cenare-wuse-kitchen'
   limit 1
 )
 where kitchen_id is null;
@@ -525,7 +525,7 @@ from (
     ('Cocktails', 22),
     ('Mocktails', 23)
 ) as seed(name, sort_order)
-join public.kitchens kitchen on kitchen.slug = 'cenara-wuse-kitchen'
+join public.kitchens kitchen on kitchen.slug = 'cenare-wuse-kitchen'
 on conflict (name, kitchen_id) do update
 set sort_order = excluded.sort_order,
     is_active = true;
@@ -691,7 +691,7 @@ from (
 ) as seed(name, description, price_mode, price_amount, sku, category_name)
 join public.menu_categories c
   on c.name = seed.category_name
- and c.kitchen_id = (select id from public.kitchens where slug = 'cenara-wuse-kitchen')
+ and c.kitchen_id = (select id from public.kitchens where slug = 'cenare-wuse-kitchen')
 on conflict (sku) do update
 set name = excluded.name,
     description = excluded.description,
@@ -751,7 +751,7 @@ where i.sku = 'BREAKFAST-001'
 on conflict (item_id, addon_id) do nothing;
 -- =====================================================================
 -- FULL SCHEMA — MULTI-KITCHEN (FRESH INSTALL)
--- Covers: Cenara Wuse Kitchen + Bistro Maitama Kitchen
+-- Covers: Cenare Wuse Kitchen + Bistro Maitama Kitchen
 -- =====================================================================
 
 
@@ -1240,7 +1240,7 @@ left join lateral (
 -- =====================
 insert into public.kitchens (name, slug, description)
 values
-  ('Cenara Wuse Kitchen',    'cenara-wuse-kitchen',    'Cenara restaurant located in Wuse'),
+  ('Cenare Wuse Kitchen',    'cenare-wuse-kitchen',    'Cenare restaurant located in Wuse'),
   ('Bistro Maitama Kitchen', 'bistro-maitama-kitchen', 'Bistro restaurant located in Maitama')
 on conflict (slug) do update
 set name        = excluded.name,
@@ -1249,7 +1249,7 @@ set name        = excluded.name,
 
 
 -- =====================
--- SEED CENARA CATEGORIES
+-- SEED CENARE CATEGORIES
 -- =====================
 insert into public.menu_categories (name, kitchen_id, sort_order)
 select seed.name, k.id, seed.sort_order
@@ -1284,14 +1284,14 @@ from (
     ('Cocktails',                 27),
     ('Mocktails',                 28)
 ) as seed(name, sort_order)
-join public.kitchens k on k.slug = 'cenara-wuse-kitchen'
+join public.kitchens k on k.slug = 'cenare-wuse-kitchen'
 on conflict (name, kitchen_id) do update
 set sort_order = excluded.sort_order,
     is_active  = true;
 
 
 -- =====================
--- SEED CENARA MENU ITEMS
+-- SEED CENARE MENU ITEMS
 -- =====================
 insert into public.menu_items (name, description, price_mode, price_amount, sku, category_id)
 select
@@ -1539,7 +1539,7 @@ from (
 ) as seed(name, description, price_mode, price_amount, sku, category_name)
 join public.menu_categories c
   on  c.name       = seed.category_name
-  and c.kitchen_id = (select id from public.kitchens where slug = 'cenara-wuse-kitchen')
+  and c.kitchen_id = (select id from public.kitchens where slug = 'cenare-wuse-kitchen')
 on conflict (sku) do update
 set name         = excluded.name,
     description  = excluded.description,
@@ -1551,7 +1551,7 @@ set name         = excluded.name,
 
 
 -- =====================
--- SEED CENARA VARIABLE PRICE OPTIONS (SIDES)
+-- SEED CENARE VARIABLE PRICE OPTIONS (SIDES)
 -- =====================
 insert into public.menu_item_price_options (item_id, label, price_amount, sort_order)
 select i.id, p.label, p.price_amount, p.sort_order
@@ -1621,7 +1621,7 @@ set price = excluded.price;
 
 
 -- =====================
--- MAP BREAKFAST ADDONS → CENARA BREAKFAST EXPERIENCE
+-- MAP BREAKFAST ADDONS → CENARE BREAKFAST EXPERIENCE
 -- =====================
 insert into public.menu_item_addons (item_id, addon_id)
 select i.id, a.id
@@ -1699,7 +1699,7 @@ on conflict (item_id, addon_id) do nothing;
 
 -- =====================================================================
 -- BISTRO MAITAMA — SEED DATA
--- Uses SKU prefix 'BISTRO-' to avoid conflicts with Cenara SKUs.
+-- Uses SKU prefix 'BISTRO-' to avoid conflicts with Cenare SKUs.
 -- =====================================================================
 
 -- SEED BISTRO CATEGORIES
