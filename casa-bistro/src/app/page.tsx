@@ -367,7 +367,7 @@ function MenuContent() {
                 </div>
 
                 {/* Items */}
-                <div className="divide-y divide-[#c9a84c]/8">
+                <div className="divide-y divide-[#c9a84c]/10">
                   {category.items.map((item) => (
                     <article
                       key={item.sku}
@@ -382,8 +382,8 @@ function MenuContent() {
                           height={40}
                           className="object-cover w-[40px] h-[40px] object-center brightness-[0.65] aspect-square rounded-sm self-start"
                         />
-                        <div className="">
-                          <div className="flex items-start justify-between gap-6 sm:block">
+                        <div className="w-full">
+                          <div className="flex items-start justify-between gap-6 sm:block w-full">
                             <h3 className="text-[15px] font-medium text-[#f0e4c3] leading-snug tracking-wide">
                               {item.name}
                             </h3>
