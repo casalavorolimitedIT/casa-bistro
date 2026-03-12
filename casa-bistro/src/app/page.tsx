@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import ChristmasMenu from "./components/ChristmasMenu";
 import MenuError from "./components/menuError";
+import SmartImage from "./components/smart-images";
 
 type Addon = {
   id: string;
@@ -373,37 +374,46 @@ function MenuContent() {
                       className="group grid grid-cols-1 gap-0.5 py-6 sm:grid-cols-[1fr_auto]"
                     >
                       {/* Left: name + description */}
-                      <div>
-                        <div className="flex items-start justify-between gap-6 sm:block">
-                          <h3 className="text-[15px] font-medium text-[#f0e4c3] leading-snug tracking-wide">
-                            {item.name}
-                          </h3>
-                          {/* price shown inline on mobile */}
-                          <span className="shrink-0 text-sm text-[#c9a84c] sm:hidden">
-                            {formatPrice(item)}
-                          </span>
-                        </div>
-
-                        {item.description && (
-                          <p className="mt-1.5 max-w-lg text-sm leading-relaxed text-[#d6c08a]">
-                            {item.description}
-                          </p>
-                        )}
-
-                        {item.addons.length > 0 && (
-                          <p className="mt-3 text-[11px] text-[#a89870] leading-relaxed">
-                            <span className="mr-1.5 uppercase tracking-[0.2em] text-[#9e8c6a]">
-                              Choice of:
+                      <div className="flex gap-3">
+                        <SmartImage
+                          src={item.image_url ?? "/placeholder.png"}
+                          alt={item.name}
+                          width={40}
+                          height={40}
+                          className="object-cover w-[40px] h-[40px] object-center brightness-[0.65] aspect-square rounded-sm self-start"
+                        />
+                        <div className="">
+                          <div className="flex items-start justify-between gap-6 sm:block">
+                            <h3 className="text-[15px] font-medium text-[#f0e4c3] leading-snug tracking-wide">
+                              {item.name}
+                            </h3>
+                            {/* price shown inline on mobile */}
+                            <span className="shrink-0 text-sm text-[#c9a84c] sm:hidden">
+                              {formatPrice(item)}
                             </span>
-                            {item.addons
-                              .map((addon) =>
-                                addon.price > 0
-                                  ? `${addon.name} (+₦${addon.price.toLocaleString()})`
-                                  : addon.name,
-                              )
-                              .join("  ·  ")}
-                          </p>
-                        )}
+                          </div>
+
+                          {item.description && (
+                            <p className="mt-1.5 max-w-lg text-sm leading-relaxed text-[#d6c08a]">
+                              {item.description}
+                            </p>
+                          )}
+
+                          {item.addons.length > 0 && (
+                            <p className="mt-3 text-[11px] text-[#a89870] leading-relaxed">
+                              <span className="mr-1.5 uppercase tracking-[0.2em] text-[#9e8c6a]">
+                                Choice of:
+                              </span>
+                              {item.addons
+                                .map((addon) =>
+                                  addon.price > 0
+                                    ? `${addon.name} (+₦${addon.price.toLocaleString()})`
+                                    : addon.name,
+                                )
+                                .join("  ·  ")}
+                            </p>
+                          )}
+                        </div>
                       </div>
 
                       {/* Right: price on desktop */}
