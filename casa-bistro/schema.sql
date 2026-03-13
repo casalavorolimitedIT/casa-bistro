@@ -923,6 +923,25 @@ alter table public.price_audit_logs enable row level security;
 
 
 -- =====================
+-- QR CODES
+-- =====================
+create table if not exists public.qr_codes (
+  id uuid primary key default gen_random_uuid(),
+  kitchen_id uuid not null references public.kitchens(id) on delete cascade,
+  slug text not null unique,
+  destination_url text not null,
+  description text,
+  is_active boolean not null default true,
+  scan_count integer not null default 0,
+  last_scanned_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.qr_codes enable row level security;
+
+
+-- =====================
 -- INDEXES
 -- =====================
 create index if not exists idx_menu_categories_kitchen
@@ -940,6 +959,12 @@ create index if not exists idx_menu_item_price_options_item
 create index if not exists idx_price_audit_logs_item_created
   on public.price_audit_logs(item_id, created_at desc);
 
+create index if not exists idx_qr_codes_kitchen_created
+  on public.qr_codes(kitchen_id, created_at desc);
+
+create index if not exists idx_qr_codes_slug_active
+  on public.qr_codes(slug, is_active);
+
 
 -- =====================
 -- HELPER FUNCTIONS
@@ -956,6 +981,46 @@ as $$
     where id = auth.uid() and role = 'admin'
   );
 $$;
+
+create or replace function public.resolve_qr_code(input_slug text)
+returns table (
+  id uuid,
+  slug text,
+  destination_url text,
+  kitchen_id uuid,
+  scan_count integer,
+  last_scanned_at timestamptz
+)
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  resolved_row public.qr_codes%rowtype;
+begin
+  update public.qr_codes
+  set scan_count = public.qr_codes.scan_count + 1,
+      last_scanned_at = now()
+  where public.qr_codes.slug = input_slug
+    and public.qr_codes.is_active = true
+  returning * into resolved_row;
+
+  if not found then
+    return;
+  end if;
+
+  return query
+  select
+    resolved_row.id,
+    resolved_row.slug,
+    resolved_row.destination_url,
+    resolved_row.kitchen_id,
+    resolved_row.scan_count,
+    resolved_row.last_scanned_at;
+end;
+$$;
+
+grant execute on function public.resolve_qr_code(text) to anon, authenticated;
 
 
 -- =====================
@@ -1009,6 +1074,8 @@ drop policy if exists "Admins full access addons"                  on public.men
 drop policy if exists "Admins full access item_addons"             on public.menu_item_addons;
 drop policy if exists "Admins full access price_logs"              on public.price_audit_logs;
 drop policy if exists "Staff read price_logs"                      on public.price_audit_logs;
+drop policy if exists "Admins full access qr_codes"                on public.qr_codes;
+drop policy if exists "Staff read qr_codes"                        on public.qr_codes;
 
 -- Profiles
 create policy "Users read own profile"
@@ -1094,6 +1161,20 @@ create policy "Staff read price_logs"
 on public.price_audit_logs for select to authenticated
 using (true);
 
+-- QR codes
+create policy "Admins full access qr_codes"
+on public.qr_codes for all to authenticated
+using (public.is_admin()) with check (public.is_admin());
+
+create policy "Staff read qr_codes"
+on public.qr_codes for select to authenticated
+using (
+  exists (
+    select 1 from public.kitchens k
+    where k.id = kitchen_id and k.is_active = true
+  )
+);
+
 
 -- =====================
 -- AUTO PROFILE CREATION
@@ -1144,6 +1225,7 @@ drop trigger if exists set_updated_at_menu_categories         on public.menu_cat
 drop trigger if exists set_updated_at_menu_items              on public.menu_items;
 drop trigger if exists set_updated_at_menu_item_price_options on public.menu_item_price_options;
 drop trigger if exists set_updated_at_menu_addons             on public.menu_addons;
+drop trigger if exists set_updated_at_qr_codes                on public.qr_codes;
 
 create trigger set_updated_at_kitchens
 before update on public.kitchens
@@ -1163,6 +1245,10 @@ for each row execute procedure public.handle_updated_at();
 
 create trigger set_updated_at_menu_addons
 before update on public.menu_addons
+for each row execute procedure public.handle_updated_at();
+
+create trigger set_updated_at_qr_codes
+before update on public.qr_codes
 for each row execute procedure public.handle_updated_at();
 
 
