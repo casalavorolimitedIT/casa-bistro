@@ -39,11 +39,11 @@ Expected result: both kitchens appear.
 
 Bistro records are required before Bistro landing can return real menu content.
 
-1. Open `schema.sql`.
-2. Locate Bistro seed section near comments about Bistro categories/items.
-3. Replace placeholders with real Bistro categories and items.
-4. Run the updated SQL in Supabase.
-5. Validate Bistro menu exists:
+`schema.sql` now includes a complete Bistro seed block under:
+
+- `BISTRO MAITAMA - SEED DATA`
+
+Run `schema.sql` in Supabase, then validate Bistro menu exists:
 
 ```sql
 select c.name as category_name, i.name as item_name, i.price_mode, i.price_amount
@@ -103,6 +103,14 @@ Authorization: Bearer <anon-key>
 
 Note: use `public.v_menu_full` as the single menu API view defined in `schema.sql`.
 
+Important pricing note:
+
+- `fixed` items use `price_amount`
+- `variable` items use `price_options`; `price_amount` is expected to be `null`
+- `tbd` items have no live amount yet
+
+Do not treat `price_amount` as the display price for every row. For variable items, the landing page should render `From ₦...` using the minimum active option price in `price_options`.
+
 ## Step 6: Add fetch helper in each external site
 
 Example helper (`lib/menu-api.ts`):
@@ -112,6 +120,31 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export type KitchenSlug = "cenare-wuse-kitchen" | "bistro-maitama-kitchen";
+
+export type MenuPriceOption = {
+  id: string;
+  label: string;
+  price_amount: number;
+  sort_order: number;
+};
+
+export type MenuApiRow = {
+  category_name: string;
+  item_name: string;
+  item_description: string | null;
+  item_sku: string | null;
+  image_url: string | null;
+  category_sort_order: number | null;
+  price_mode: "fixed" | "variable" | "tbd";
+  price_amount: number | null;
+  price_options: MenuPriceOption[];
+  addons: Array<{ id: string; name: string; price: number }>;
+};
+
+export type NormalizedMenuItem = MenuApiRow & {
+  display_price: number | null;
+  display_price_label: string;
+};
 
 export async function fetchMenuByKitchenSlug(kitchenSlug: KitchenSlug) {
   const query = new URLSearchParams({
@@ -139,22 +172,75 @@ export async function fetchMenuByKitchenSlug(kitchenSlug: KitchenSlug) {
     throw new Error(`Menu API error ${response.status}: ${text}`);
   }
 
-  return response.json();
+  return response.json() as Promise<MenuApiRow[]>;
+}
+
+export function normalizeMenuItems(rows: MenuApiRow[]): NormalizedMenuItem[] {
+  return rows.map((row) => {
+    if (row.price_mode === "variable") {
+      const prices = row.price_options
+        .map((option) => Number(option.price_amount))
+        .filter((price) => Number.isFinite(price));
+
+      const minPrice = prices.length > 0 ? Math.min(...prices) : null;
+
+      return {
+        ...row,
+        display_price: minPrice,
+        display_price_label:
+          minPrice === null
+            ? "Variable pricing"
+            : `From ₦${new Intl.NumberFormat("en-NG", {
+                minimumFractionDigits: 0,
+              }).format(minPrice)}`,
+      };
+    }
+
+    if (row.price_mode === "tbd" || row.price_amount === null) {
+      return {
+        ...row,
+        display_price: null,
+        display_price_label: "Price TBD",
+      };
+    }
+
+    return {
+      ...row,
+      display_price: row.price_amount,
+      display_price_label: new Intl.NumberFormat("en-NG", {
+        style: "currency",
+        currency: "NGN",
+        minimumFractionDigits: 0,
+      }).format(row.price_amount),
+    };
+  });
 }
 ```
 
-## Step 7: Use the helper per website
+## Step 7: Render the normalized price per website
+
+Example:
+
+```ts
+const rows = await fetchMenuByKitchenSlug("cenare-wuse-kitchen");
+const items = normalizeMenuItems(rows);
+
+items.map((item) => item.display_price_label);
+```
 
 - Cenare site: call `fetchMenuByKitchenSlug("cenare-wuse-kitchen")`
 - Bistro site: call `fetchMenuByKitchenSlug("bistro-maitama-kitchen")`
+- For variable items, render `display_price_label` instead of raw `price_amount`
 
 ## Step 8: Add a minimal smoke test checklist
 
 1. Cenare page loads with Cenare categories/items only.
 2. Bistro page loads with Bistro categories/items only.
 3. Hidden/inactive items do not appear.
-4. No service role key is exposed in frontend code.
-5. API errors show fallback UI instead of blank page.
+4. Variable-price items render as `From ₦...` using `price_options`, not `price_amount`.
+5. Fixed-price items render from `price_amount`.
+6. No service role key is exposed in frontend code.
+7. API errors show fallback UI instead of blank page.
 
 ## Optional: Proxy through Kitchen CMS API
 

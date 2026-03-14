@@ -16,12 +16,20 @@ type Addon = {
   price: number;
 };
 
+type PriceOption = {
+  id: string;
+  label: string;
+  price_amount: number;
+  sort_order: number;
+};
+
 type MenuItem = {
   category_name: string;
   name: string;
   description: string | null;
   price_mode: string;
   price_amount: number | null;
+  price_options?: PriceOption[] | null;
   image_url: string | null;
   sku: string;
   category_sort_order: number;
@@ -51,7 +59,29 @@ function isChristmasSeason(): boolean {
 
 function formatPrice(item: MenuItem): string {
   if (item.price_mode === "tbd") return "Price on request";
-  if (item.price_mode === "variable") return "Variable pricing";
+  if (item.price_mode === "variable") {
+    const variableOptions = Array.isArray(item.price_options)
+      ? item.price_options
+      : [];
+
+    const minVariablePrice = variableOptions
+      .map((option) => Number(option.price_amount))
+      .filter((price) => Number.isFinite(price) && price > 0)
+      .reduce<number | null>(
+        (min, price) => (min === null ? price : Math.min(min, price)),
+        null,
+      );
+
+    if (minVariablePrice !== null) {
+      return `From ₦${minVariablePrice.toLocaleString()}`;
+    }
+
+    if (item.price_amount !== null) {
+      return `From ₦${item.price_amount.toLocaleString()}`;
+    }
+
+    return "Variable pricing";
+  }
   if (item.price_amount === null) return "—";
   return `₦${item.price_amount.toLocaleString()}`;
 }

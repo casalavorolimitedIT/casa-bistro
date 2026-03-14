@@ -23,7 +23,7 @@ export async function GET() {
     is_active: "eq.true",
     is_visible: "eq.true",
     select:
-      "category_name,name,description,price_mode,price_amount,image_url,sku,category_sort_order,kitchen_slug,addons",
+      "category_name,name,description,price_mode,price_amount,price_options,image_url,sku,category_sort_order,kitchen_slug,addons",
     order: "category_sort_order.asc,name.asc",
   });
 
