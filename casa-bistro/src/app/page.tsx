@@ -8,6 +8,8 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import ChristmasMenu from "./components/ChristmasMenu";
 import MenuError from "./components/menuError";
+import MenuItemModal, { ModalMenuItem } from "./components/MenuItemModal";
+import ScrollTop from "./components/scrollTop";
 import SmartImage from "./components/smart-images";
 
 type Addon = {
@@ -124,7 +126,7 @@ function MenuContent() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedPriceMode, setSelectedPriceMode] = useState("all");
   const [showChristmasMenu, setShowChristmasMenu] = useState(false);
-
+  const [activeItem, setActiveItem] = useState<ModalMenuItem | null>(null);
   const showSeasonalBanner = isChristmasSeason();
 
   const categories = useMemo(() => {
@@ -401,7 +403,15 @@ function MenuContent() {
                   {category.items.map((item) => (
                     <article
                       key={item.sku}
-                      className="group grid grid-cols-1 gap-0.5 py-6 sm:grid-cols-[1fr_auto]"
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setActiveItem(item as ModalMenuItem)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ")
+                          setActiveItem(item as ModalMenuItem);
+                      }}
+                      aria-label={`Open details for ${item.name}`}
+                      className="group grid grid-cols-1 gap-0.5 py-6 sm:grid-cols-[1fr_auto] cursor-pointer select-none rounded-sm transition-colors hover:bg-[#d1b87a]/[0.04] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#d1b87a]/60"
                     >
                       {/* Left: name + description */}
                       <div className="flex gap-3">
@@ -410,7 +420,7 @@ function MenuContent() {
                           alt={item.name}
                           width={40}
                           height={40}
-                          className="object-cover w-[40px] h-[40px] object-center brightness-[0.65] aspect-square rounded-sm self-start"
+                          className="object-cover w-[40px] h-[40px] object-center brightness-[0.65] aspect-square rounded-sm self-start transition-all group-hover:brightness-90 group-hover:scale-[1.04]"
                         />
                         <div className="w-full">
                           <div className="flex items-start justify-between gap-6 sm:block w-full">
@@ -443,13 +453,49 @@ function MenuContent() {
                                 .join("  ·  ")}
                             </p>
                           )}
+                          <div className="mt-3 flex items-center justify-end">
+                            <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.25em] text-[#c9a96e] sm:hidden">
+                              Tap for details
+                              <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth={1.8}
+                                className="h-3.5 w-3.5"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  d="M9 6l6 6-6 6"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                            </span>
+                          </div>
                         </div>
                       </div>
 
                       {/* Right: price on desktop */}
-                      <div className="hidden sm:flex sm:items-start sm:justify-end">
-                        <span className="mt-0.5 text-sm font-medium text-[#c9a84c] tracking-wide">
+                      <div className=" flex flex-col items-end justify-between text-right gap-1">
+                        <span className="mt-0.5 text-sm font-medium text-[#c9a84c] tracking-wide text-right block hidden sm:inline">
                           {formatPrice(item)}
+                        </span>
+                        <span className="hidden items-center text-[10px] uppercase tracking-[0.25em] text-[#c9a96e] opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 sm:inline-flex">
+                          View details
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={1.8}
+                            className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M9 6l6 6-6 6"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
                         </span>
                       </div>
                     </article>
@@ -459,8 +505,9 @@ function MenuContent() {
             ))}
           </div>
         )}
+        <ScrollTop />
       </main>
-
+      <MenuItemModal item={activeItem} onClose={() => setActiveItem(null)} />
       {/* ── Footer ───────────────────────────────────────────────────── */}
       <footer className="border-t border-[#c9a84c]/10 py-10 text-center">
         <div className="flex items-center justify-center gap-4 mb-4">

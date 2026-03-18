@@ -12,6 +12,23 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        sans: [
+          "var(--font-poppins)",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+        ],
+      },
+      keyframes: {
+        "modal-up": {
+          "0%": { opacity: "0", transform: "translateY(24px) scale(0.97)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
+        },
+      },
+      animation: {
+        "modal-up": "modal-up 0.22s cubic-bezier(0.22,1,0.36,1) both",
+      },
     },
   },
   plugins: [],
