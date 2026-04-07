@@ -20,6 +20,7 @@ export default function CasaMenuItemReviewSheet({
   kitchenSlug,
   onClose,
 }: CasaMenuItemReviewSheetProps) {
+  const [isApprovedOpen, setIsApprovedOpen] = useState(false);
   const [approvedReviews, setApprovedReviews] = useState<
     Array<{
       id: string;
@@ -52,6 +53,7 @@ export default function CasaMenuItemReviewSheet({
   useEffect(() => {
     if (!item) return;
     const activeItem = item;
+    setIsApprovedOpen(false);
 
     let cancelled = false;
     setIsLoadingApprovedReviews(true);
@@ -113,7 +115,7 @@ export default function CasaMenuItemReviewSheet({
       <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" />
 
       <div
-        className="relative z-10 mx-auto w-full max-w-lg overflow-hidden rounded-t-xl border border-orange-300/30 bg-[#151515] shadow-[0_0_60px_rgba(249,115,22,0.2)] animate-modal-up sm:rounded-xl"
+        className="relative z-10 mx-auto w-full max-h-[80vh] max-w-lg overflow-x-hidden overflow-y-auto rounded-t-xl border border-orange-300/30 bg-[#151515] shadow-[0_0_60px_rgba(249,115,22,0.2)] animate-modal-up sm:rounded-xl"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="bg-gradient-to-r from-orange-600/25 to-orange-400/10 px-5 py-4">
@@ -143,38 +145,78 @@ export default function CasaMenuItemReviewSheet({
           )}
 
           <div className="space-y-2 border-t border-orange-300/20 pt-4">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-orange-200/80">
-              Approved Reviews
-            </p>
+            <button
+              type="button"
+              onClick={() => setIsApprovedOpen((prev) => !prev)}
+              className="group flex w-full items-center justify-between rounded-lg border border-orange-300/30 bg-black/25 px-3 py-2.5 transition hover:border-orange-300/50 hover:bg-black/35"
+            >
+              <span className="text-[10px] uppercase tracking-[0.3em] text-orange-200/85">
+                Approved Reviews
+              </span>
+              <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-orange-200/70">
+                {isLoadingApprovedReviews
+                  ? "Loading"
+                  : `${Math.min(approvedReviews.length, 3)} shown`}
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.8}
+                  className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                    isApprovedOpen ? "rotate-180" : "rotate-0"
+                  }`}
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M6 9l6 6 6-6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </button>
 
-            {isLoadingApprovedReviews && (
-              <p className="text-xs text-orange-100/80">Loading recent reviews...</p>
-            )}
+            <div
+              id="approved-reviews-panel"
+              className={`grid transition-all duration-300 ease-out ${
+                isApprovedOpen
+                  ? "grid-rows-[1fr] opacity-100"
+                  : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="space-y-2 pt-2">
+                  {isLoadingApprovedReviews && (
+                    <p className="text-xs text-orange-100/80">Loading recent reviews...</p>
+                  )}
 
-            {!isLoadingApprovedReviews && approvedReviews.length === 0 && (
-              <p className="text-xs text-orange-100/80">
-                No approved reviews yet. Be the first to share feedback.
-              </p>
-            )}
-
-            {!isLoadingApprovedReviews && approvedReviews.length > 0 && (
-              <ul className="space-y-2">
-                {approvedReviews.slice(0, 3).map((review) => (
-                  <li
-                    key={review.id}
-                    className="rounded-md border border-orange-300/25 bg-black/35 p-2.5"
-                  >
-                    <p className="text-xs text-orange-300">★ {review.rating.toFixed(1)}</p>
-                    <p className="mt-1 text-xs leading-relaxed text-orange-100/90">
-                      {review.feedback}
+                  {!isLoadingApprovedReviews && approvedReviews.length === 0 && (
+                    <p className="text-xs text-orange-100/80">
+                      No approved reviews yet. Be the first to share feedback.
                     </p>
-                    <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-orange-200/70">
-                      {review.reviewer_name ?? "Anonymous"}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            )}
+                  )}
+
+                  {!isLoadingApprovedReviews && approvedReviews.length > 0 && (
+                    <ul className="space-y-2">
+                      {approvedReviews.slice(0, 3).map((review) => (
+                        <li
+                          key={review.id}
+                          className="rounded-md border border-orange-300/25 bg-black/35 p-2.5"
+                        >
+                          <p className="text-xs text-orange-300">★ {review.rating.toFixed(1)}</p>
+                          <p className="mt-1 text-xs leading-relaxed text-orange-100/90">
+                            {review.feedback}
+                          </p>
+                          <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-orange-200/70">
+                            {review.reviewer_name ?? "Anonymous"}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            </div>
 
             <p className="pt-1 text-[10px] uppercase tracking-[0.3em] text-orange-200/80">
               Leave your review
