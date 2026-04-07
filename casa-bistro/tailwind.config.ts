@@ -12,14 +12,6 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
-      fontFamily: {
-        sans: [
-          "var(--font-poppins)",
-          "ui-sans-serif",
-          "system-ui",
-          "sans-serif",
-        ],
-      },
       keyframes: {
         "modal-up": {
           "0%": { opacity: "0", transform: "translateY(24px) scale(0.97)" },
