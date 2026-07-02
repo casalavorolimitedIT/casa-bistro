@@ -28,6 +28,7 @@ type PriceOption = {
 };
 
 type MenuItem = {
+  id: string;
   category_name: string;
   name: string;
   description: string | null;
@@ -35,7 +36,7 @@ type MenuItem = {
   price_amount: number | null;
   price_options?: PriceOption[] | null;
   image_url: string | null;
-  sku: string;
+  sku: string | null;
   category_sort_order: number;
   kitchen_slug: string;
   addons: Addon[];
@@ -238,7 +239,7 @@ function MenuContent() {
         item.name.toLowerCase().includes(normalizedSearch) ||
         item.category_name.toLowerCase().includes(normalizedSearch) ||
         (item.description ?? "").toLowerCase().includes(normalizedSearch) ||
-        item.sku.toLowerCase().includes(normalizedSearch);
+        (item.sku ?? "").toLowerCase().includes(normalizedSearch);
       const matchesCategory =
         selectedCategory === "all" || item.category_name === selectedCategory;
       const matchesPriceMode =
@@ -486,10 +487,10 @@ function MenuContent() {
                 {/* Items */}
                 <div className="divide-y divide-[#c9a84c]/10">
                   {category.items.map((item) => {
-                    const itemStat = reviewStats[item.sku];
+                    const itemStat = item.sku ? reviewStats[item.sku] : undefined;
                     return (
                     <article
-                      key={item.sku}
+                      key={item.id}
                       className="group grid grid-cols-1 gap-0.5 py-6 sm:grid-cols-[1fr_auto] rounded-sm transition-colors hover:bg-[#d1b87a]/[0.04]"
                     >
                       {/* Left: name + description */}
@@ -540,21 +541,23 @@ function MenuContent() {
                             </p>
                           )}
                           <div className="mt-3 flex flex-wrap items-center justify-end gap-3 sm:justify-start">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setActiveReviewItem({
-                                  sku: item.sku,
-                                  name: item.name,
-                                  price: getReviewPrice(item),
-                                  description: item.description ?? undefined,
-                                  categoryName: category.categoryName,
-                                });
-                              }}
-                              className="rounded-sm border border-[#c9a84c]/40 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-[#d6c08a] transition hover:bg-[#c9a84c]/10"
-                            >
-                              Review dish
-                            </button>
+                            {item.sku && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setActiveReviewItem({
+                                    sku: item.sku!,
+                                    name: item.name,
+                                    price: getReviewPrice(item),
+                                    description: item.description ?? undefined,
+                                    categoryName: category.categoryName,
+                                  });
+                                }}
+                                className="rounded-sm border border-[#c9a84c]/40 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-[#d6c08a] transition hover:bg-[#c9a84c]/10"
+                              >
+                                Review dish
+                              </button>
+                            )}
                             <button
                               type="button"
                               onClick={() => setActiveItem(item as ModalMenuItem)}
