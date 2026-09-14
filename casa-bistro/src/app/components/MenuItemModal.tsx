@@ -102,7 +102,7 @@ export default function MenuItemModal({ item, onClose }: MenuItemModalProps) {
             src={item.image_url ?? "/placeholder.png"}
             alt={item.name}
             fill
-            className="object-cover brightness-75"
+            className="object-cover"
             fallbackVariant="initials"
             label={item.name}
             wrapperClassName="w-full h-full"
