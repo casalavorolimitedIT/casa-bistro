@@ -128,6 +128,23 @@ begin
   end if;
 end $$;
 
+alter table public.menu_categories
+  add column if not exists parent_id uuid;
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_constraint
+    where conname = 'menu_categories_parent_id_fkey'
+      and conrelid = 'public.menu_categories'::regclass
+  ) then
+    alter table public.menu_categories
+      add constraint menu_categories_parent_id_fkey
+      foreign key (parent_id) references public.menu_categories(id) on delete set null;
+  end if;
+end $$;
+
 -- =====================
 -- MENU ITEMS
 -- =====================
@@ -1283,10 +1300,14 @@ select
   k.name         as kitchen_name,
   k.slug         as kitchen_slug,
   coalesce(po.price_options, '[]'::jsonb) as price_options,
-  coalesce(ad.addons, '[]'::jsonb)        as addons
+  coalesce(ad.addons, '[]'::jsonb)        as addons,
+  mc.parent_id       as parent_category_id,
+  parent.name        as parent_category_name,
+  parent.sort_order  as parent_category_sort_order
 from public.menu_items mi
-left join public.menu_categories mc on mc.id = mi.category_id
-left join public.kitchens k         on k.id  = mc.kitchen_id
+left join public.menu_categories mc     on mc.id = mi.category_id
+left join public.menu_categories parent on parent.id = mc.parent_id
+left join public.kitchens k             on k.id  = mc.kitchen_id
 left join lateral (
   select jsonb_agg(
            jsonb_build_object(

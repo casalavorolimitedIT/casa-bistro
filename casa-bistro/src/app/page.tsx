@@ -38,6 +38,9 @@ type MenuItem = {
   image_url: string | null;
   sku: string | null;
   category_sort_order: number;
+  parent_category_id: string | null;
+  parent_category_name: string | null;
+  parent_category_sort_order: number | null;
   kitchen_slug: string;
   addons: Addon[];
 };
@@ -48,10 +51,16 @@ type BistroMenuResponse = {
   items: MenuItem[];
 };
 
-type GroupedCategory = {
+type SubCategoryGroup = {
   categoryName: string;
   categorySortOrder: number;
   items: MenuItem[];
+};
+
+type GroupedCategory = {
+  categoryName: string;
+  categorySortOrder: number;
+  subCategories: SubCategoryGroup[];
 };
 
 type ReviewStat = {
@@ -107,21 +116,48 @@ function formatPrice(item: MenuItem): string {
 }
 
 function groupItems(items: MenuItem[]): GroupedCategory[] {
-  const map = new Map<string, GroupedCategory>();
+  const sections = new Map<
+    string,
+    { categoryName: string; categorySortOrder: number; subCategories: Map<string, SubCategoryGroup> }
+  >();
+
   for (const item of items) {
-    const key = `${item.category_sort_order}-${item.category_name}`;
-    if (!map.has(key)) {
-      map.set(key, {
+    const hasParent = item.parent_category_name !== null;
+    const sectionName = hasParent ? item.parent_category_name! : item.category_name;
+    const sectionSortOrder = hasParent
+      ? item.parent_category_sort_order ?? item.category_sort_order
+      : item.category_sort_order;
+    const sectionKey = `${sectionSortOrder}-${sectionName}`;
+
+    if (!sections.has(sectionKey)) {
+      sections.set(sectionKey, {
+        categoryName: sectionName,
+        categorySortOrder: sectionSortOrder,
+        subCategories: new Map(),
+      });
+    }
+
+    const section = sections.get(sectionKey)!;
+    const subKey = `${item.category_sort_order}-${item.category_name}`;
+    if (!section.subCategories.has(subKey)) {
+      section.subCategories.set(subKey, {
         categoryName: item.category_name,
         categorySortOrder: item.category_sort_order,
         items: [],
       });
     }
-    map.get(key)?.items.push(item);
+    section.subCategories.get(subKey)?.items.push(item);
   }
-  return Array.from(map.values()).sort(
-    (a, b) => a.categorySortOrder - b.categorySortOrder,
-  );
+
+  return Array.from(sections.values())
+    .sort((a, b) => a.categorySortOrder - b.categorySortOrder)
+    .map((section) => ({
+      categoryName: section.categoryName,
+      categorySortOrder: section.categorySortOrder,
+      subCategories: Array.from(section.subCategories.values()).sort(
+        (a, b) => a.categorySortOrder - b.categorySortOrder,
+      ),
+    }));
 }
 
 function getReviewPrice(item: MenuItem): number {
@@ -484,9 +520,21 @@ function MenuContent() {
                   <span className="h-px flex-1 bg-[#c9a84c]/12" />
                 </div>
 
+                {category.subCategories.map((subCategory) => {
+                  const showSubHeading =
+                    category.subCategories.length > 1 ||
+                    subCategory.categoryName !== category.categoryName;
+
+                  return (
+                <div key={`${subCategory.categorySortOrder}-${subCategory.categoryName}`}>
+                {showSubHeading && (
+                  <h3 className="mb-4 mt-6 text-[10px] font-semibold uppercase tracking-[0.35em] text-[#a89870]">
+                    {subCategory.categoryName}
+                  </h3>
+                )}
                 {/* Items */}
                 <div className="divide-y divide-[#c9a84c]/10">
-                  {category.items.map((item) => {
+                  {subCategory.items.map((item) => {
                     const itemStat = item.sku ? reviewStats[item.sku] : undefined;
                     return (
                     <article
@@ -550,7 +598,7 @@ function MenuContent() {
                                     name: item.name,
                                     price: getReviewPrice(item),
                                     description: item.description ?? undefined,
-                                    categoryName: category.categoryName,
+                                    categoryName: item.category_name,
                                   });
                                 }}
                                 className="rounded-sm border border-[#c9a84c]/40 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-[#d6c08a] transition hover:bg-[#c9a84c]/10"
@@ -613,6 +661,9 @@ function MenuContent() {
                     </article>
                   );})}
                 </div>
+                </div>
+                  );
+                })}
               </section>
             ))}
           </div>
